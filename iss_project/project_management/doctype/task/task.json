@@ -1,0 +1,26 @@
+{
+  "doctype":"DocType",
+  "name":"Task",
+  "module":"project_management",
+  "custom": true,
+  "is_submittable": false,
+  "fields":[
+    {"fieldname":"task_id","label":"Task ID","fieldtype":"Data","reqd":1,"unique":1},
+    {"fieldname":"subject","label":"Subject","fieldtype":"Data","reqd":1},
+    {"fieldname":"project","label":"Project","fieldtype":"Link","options":"Project Master"},
+    {"fieldname":"milestone","label":"Milestone","fieldtype":"Link","options":"Milestone"},
+    {"fieldname":"assigned_to","label":"Assigned To","fieldtype":"Link","options":"User"},
+    {"fieldname":"estimated_hours","label":"Estimated Hours","fieldtype":"Float"},
+    {"fieldname":"status","label":"Status","fieldtype":"Select","options":"Open\nIn Progress\nCompleted\nBlocked","default":"Open"},
+    {"fieldname":"billable","label":"Billable","fieldtype":"Check","default":1},
+    {"fieldname":"misc_task","label":"Misc Task (Exclude)","fieldtype":"Check","default":0},
+    {"fieldname":"approval_needed","label":"Approval Needed","fieldtype":"Check","default":1}
+  ],
+  "permissions":[
+    {"role":"Developer","read":1,"create":1,"write":1},
+    {"role":"Project Manager","read":1,"create":1,"write":1,"delete":1},
+    {"role":"HR & Finance","read":1},
+    {"role":"Management","read":1}
+  ],
+  "track_changes": 1
+}

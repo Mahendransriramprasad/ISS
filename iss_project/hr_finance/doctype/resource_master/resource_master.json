@@ -1,0 +1,20 @@
+{
+  "doctype": "DocType",
+  "name": "Resource Master",
+  "module": "hr_finance",
+  "custom": true,
+  "fields": [
+    { "fieldname": "user", "label": "User", "fieldtype": "Link", "options": "User", "reqd": 1 },
+    { "fieldname": "full_name", "label": "Full Name", "fieldtype": "Data" },
+    { "fieldname": "role_type", "label": "Role Type", "fieldtype": "Select",
+      "options": "Developer\nProject Manager\nHR & Finance\nManagement", "reqd": 1 },
+    { "fieldname": "billing_rate", "label": "Billing Rate per Hour", "fieldtype": "Currency", "reqd": 1 },
+    { "fieldname": "cost_center", "label": "Cost Center", "fieldtype": "Link", "options": "Cost Center" }
+  ],
+  "permissions": [
+    { "role": "hr_finance", "create": 1, "read": 1, "write": 1, "delete": 1 },
+    { "role": "Project Manager", "read": 1 },
+    { "role": "Management", "read": 1 }
+  ],
+  "track_changes": 1
+}

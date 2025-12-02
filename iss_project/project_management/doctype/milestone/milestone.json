@@ -1,0 +1,22 @@
+{
+  "doctype": "DocType",
+  "name": "Milestone",
+  "module": "project_management",
+  "custom": true,
+  "fields": [
+    { "fieldname": "milestone_name", "label": "Milestone Name", "fieldtype": "Data", "reqd": 1 },
+    { "fieldname": "project", "label": "Project", "fieldtype": "Link", "options": "Project Master", "reqd": 1 },
+    { "fieldname": "planned_date", "label": "Planned Date", "fieldtype": "Date" },
+    { "fieldname": "actual_date", "label": "Actual Date", "fieldtype": "Date" },
+    { "fieldname": "extension_count", "label": "Extension Count", "fieldtype": "Int", "default": 0 },
+    { "fieldname": "status", "label": "Status", "fieldtype": "Select",
+      "options": "Pending\nIn Progress\nCompleted", "default": "Pending" }
+  ],
+  "permissions": [
+    { "role": "Project Manager", "create": 1, "read": 1, "write": 1 },
+    { "role": "HR & Finance", "read": 1 },
+    { "role": "Developer", "read": 1 },
+    { "role": "Management", "read": 1 }
+  ],
+  "track_changes": 1
+}

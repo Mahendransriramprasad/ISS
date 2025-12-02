@@ -1,0 +1,46 @@
+<div class="p-6">
+  <h1 class="text-xl font-bold mb-6">Timesheet Approvals</h1>
+
+  <div id="list"></div>
+</div>
+
+<script>
+async function loadTimesheets() {
+  let res = await fetch("/api/resource/Timesheet Entry?filters=[[\"status\",\"=\",\"Pending Approval\"]]");
+  let data = await res.json();
+  let container = document.getElementById("list");
+  container.innerHTML = "";
+
+  data.data.forEach(row => {
+    container.innerHTML += `
+      <div class="p-4 border rounded bg-white mb-3">
+        <h3 class="font-bold">${row.name}</h3>
+        <p>Task: ${row.task}</p>
+        <p>Developer: ${row.developer}</p>
+        <p>Hours: ${row.hours}</p>
+        <button onclick="approve('${row.name}')" class="bg-green-600 text-white px-3 py-1 rounded mt-2">Approve</button>
+        <button onclick="rejectTS('${row.name}')" class="bg-red-600 text-white px-3 py-1 rounded mt-2 ml-2">Reject</button>
+      </div>
+    `;
+  });
+}
+
+async function approve(id) {
+  await fetch("/api/method/iss_project.www.api.pm_timesheet_api.approve_timesheet", {
+    method: "POST",
+    body: JSON.stringify({ timesheet_id: id })
+  });
+  loadTimesheets();
+}
+
+async function rejectTS(id) {
+  const reason = prompt("Enter rejection reason:");
+  await fetch("/api/method/iss_project.www.api.pm_timesheet_api.reject_timesheet", {
+    method: "POST",
+    body: JSON.stringify({ timesheet_id: id, reason })
+  });
+  loadTimesheets();
+}
+
+loadTimesheets();
+</script>

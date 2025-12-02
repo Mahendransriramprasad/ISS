@@ -1,0 +1,23 @@
+{
+  "doctype":"DocType",
+  "name":"Utilization Log",
+  "module":"project_management",
+  "custom": true,
+  "is_submittable": false,
+  "fields":[
+    {"fieldname":"project","label":"Project","fieldtype":"Link","options":"Project Master"},
+    {"fieldname":"user","label":"User","fieldtype":"Link","options":"User"},
+    {"fieldname":"period_start","label":"Period Start","fieldtype":"Date"},
+    {"fieldname":"period_end","label":"Period End","fieldtype":"Date"},
+    {"fieldname":"billable_hours","label":"Billable Hours","fieldtype":"Float"},
+    {"fieldname":"non_billable_hours","label":"Non Billable Hours","fieldtype":"Float"},
+    {"fieldname":"util_pct","label":"Utilization %","fieldtype":"Percent"}
+  ],
+  "permissions":[
+    {"role":"HR & Finance","read":1,"write":1,"create":1},
+    {"role":"Project Manager","read":1},
+    {"role":"Developer","read":1},
+    {"role":"Management","read":1}
+  ],
+  "track_changes":1
+}

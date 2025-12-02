@@ -1,0 +1,21 @@
+{
+  "doctype": "DocType",
+  "name": "PM Scorecard",
+  "module": "project_management",
+  "custom": true,
+  "fields": [
+    { "fieldname": "project_manager", "label": "Project Manager", "fieldtype": "Link", "options": "User", "reqd": 1 },
+    { "fieldname": "period", "label": "Period", "fieldtype": "Data", "reqd": 1 },
+    { "fieldname": "on_time_delivery", "label": "On-Time Delivery %", "fieldtype": "Percent" },
+    { "fieldname": "budget_efficiency", "label": "Budget Efficiency %", "fieldtype": "Percent" },
+    { "fieldname": "resource_utilization_score", "label": "Resource Utilization Score", "fieldtype": "Float" },
+    { "fieldname": "final_score", "label": "Final Score", "fieldtype": "Float" }
+  ],
+  "permissions": [
+    { "role": "Management", "read": 1 },
+    { "role": "HR & Finance", "read": 1 },
+    { "role": "Project Manager", "read": 1 },
+    { "role": "Developer", "read": 1 }
+  ],
+  "track_changes": 1
+}

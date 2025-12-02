@@ -1,0 +1,19 @@
+{
+  "doctype": "DocType",
+  "name": "Budget Entry",
+  "module": "hr_finance",
+  "custom": true,
+  "fields": [
+    { "fieldname": "project", "label": "Project", "fieldtype": "Link", "options": "Project Master", "reqd": 1 },
+    { "fieldname": "budget_type", "label": "Budget Type", "fieldtype": "Select",
+      "options": "Total\nDevelopment\nQA\nMisc", "reqd": 1 },
+    { "fieldname": "budget_percent", "label": "Budget %", "fieldtype": "Percent", "reqd": 1 },
+    { "fieldname": "notes", "label": "Notes", "fieldtype": "Small Text" }
+  ],
+  "permissions": [
+    { "role": "hr_finance", "create": 1, "read": 1, "write": 1, "delete": 1 },
+    { "role": "Project Manager", "read": 1 },
+    { "role": "Management", "read": 1 }
+  ],
+  "track_changes": 1
+}

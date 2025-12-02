@@ -1,0 +1,55 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+  <div class="bg-white p-8 rounded shadow w-96">
+    <h1 class="text-xl font-bold text-center mb-6">Internal Portal Login</h1>
+
+    <input id="email" type="text" class="w-full p-2 mb-4 border rounded"
+      placeholder="Email">
+
+    <input id="password" type="password" class="w-full p-2 mb-6 border rounded"
+      placeholder="Password">
+
+    <button onclick="loginPortal()" class="w-full bg-blue-600 text-white py-2 rounded">
+      Login
+    </button>
+
+    <p id="error" class="text-red-500 text-sm mt-4 text-center"></p>
+  </div>
+</div>
+<script>
+async function loginPortal() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  // form-encoded body (frappe expects form-data / form-encoded easily)
+  const body = new URLSearchParams();
+  body.append("email", email);
+  body.append("password", password);
+
+  try {
+    const res = await fetch("/api/method/iss_project.www.portal_login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "Accept": "application/json"
+      },
+      body: body.toString()
+    });
+
+    // If response is not OK, try to parse json error message
+    const data = await res.json();
+
+    if (res.ok && data.message && data.message.status === "success") {
+      // redirect to the dashboard returned by the API
+      window.location.href = data.message.redirect || "/";
+      return;
+    }
+
+    const err = (data && data.message && (data.message.message || data.message)) || "Login failed";
+    document.getElementById("error").innerText = err;
+
+  } catch (e) {
+    console.error("Login error", e);
+    document.getElementById("error").innerText = "Network error. Check server logs.";
+  }
+}
+</script>

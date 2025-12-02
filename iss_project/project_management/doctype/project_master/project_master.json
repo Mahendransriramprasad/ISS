@@ -1,0 +1,27 @@
+{
+  "doctype":"DocType",
+  "name":"Project Master",
+  "module":"project_management",
+  "custom": true,
+  "is_submittable": false,
+  "fields":[
+    {"fieldname":"project_code","label":"Project Code","fieldtype":"Data","reqd":1,"unique":1},
+    {"fieldname":"project_name","label":"Project Name","fieldtype":"Data","reqd":1},
+    {"fieldname":"client","label":"Client","fieldtype":"Link","options":"Customer"},
+    {"fieldname":"project_manager","label":"Project Manager","fieldtype":"Link","options":"User"},
+    {"fieldname":"start_date","label":"Start Date","fieldtype":"Date"},
+    {"fieldname":"end_date","label":"End Date","fieldtype":"Date"},
+    {"fieldname":"budget_percent","label":"Budget %","fieldtype":"Percent","default":0},
+    {"fieldname":"last_utilization_pct","label":"Last Utilization %","fieldtype":"Percent"},
+    {"fieldname":"last_profit_pct","label":"Last Profit %","fieldtype":"Percent"},
+    {"fieldname":"misc_excluded","label":"Misc Excluded","fieldtype":"Check","default":0}
+  ],
+  "permissions":[
+    {"role":"HR & Finance","read":1,"write":1,"create":1,"delete":1},
+    {"role":"Project Manager","read":1,"write":1,"create":1},
+    {"role":"Developer","read":1},
+    {"role":"Management","read":1}
+  ],
+  "track_changes": 1,
+  "issingle": 0
+}

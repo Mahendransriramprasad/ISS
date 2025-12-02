@@ -1,0 +1,58 @@
+<div class="p-8 max-w-xl mx-auto">
+  <h1 class="text-2xl font-bold mb-6">Create New Task</h1>
+
+  <div class="mb-4">
+    <label class="block mb-1">Task Title</label>
+    <input id="title" class="p-2 border w-full rounded">
+  </div>
+
+  <div class="mb-4">
+    <label class="block mb-1">Assign To (Developer Email)</label>
+    <input id="developer" class="p-2 border w-full rounded">
+  </div>
+
+  <div class="mb-4">
+    <label class="block mb-1">Project</label>
+    <input id="project" class="p-2 border w-full rounded">
+  </div>
+
+  <div class="mb-4">
+    <label class="block mb-1">Estimated Hours</label>
+    <input id="hours" type="number" step="0.5" class="p-2 border w-full rounded">
+  </div>
+
+  <div class="mb-4">
+    <label class="block mb-1">Priority</label>
+    <select id="priority" class="p-2 border w-full rounded">
+      <option>Low</option>
+      <option selected>Medium</option>
+      <option>High</option>
+    </select>
+  </div>
+
+  <button onclick="createTask()" class="px-4 py-2 bg-blue-600 text-white rounded">
+    Create Task
+  </button>
+
+  <p id="resp" class="text-green-600 mt-4"></p>
+</div>
+
+<script>
+async function createTask() {
+  let data = {
+    title: document.getElementById("title").value,
+    developer: document.getElementById("developer").value,
+    project: document.getElementById("project").value,
+    estimated_hours: document.getElementById("hours").value,
+    priority: document.getElementById("priority").value
+  };
+
+  let res = await fetch("/api/method/iss_project.www.api.pm_task_api.create_task", {
+    method: "POST",
+    body: JSON.stringify(data)
+  });
+
+  let json = await res.json();
+  document.getElementById("resp").innerText = json.message.message;
+}
+</script>

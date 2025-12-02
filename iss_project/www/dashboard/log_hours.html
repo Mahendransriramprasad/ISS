@@ -1,0 +1,43 @@
+<div class="p-8 max-w-lg mx-auto">
+  <h1 class="text-2xl font-bold mb-6">Log Hours</h1>
+
+  <input type="hidden" id="task" value="{{ frappe.form_dict.task }}">
+
+  <div class="mb-4">
+    <label class="block mb-1">Work Date</label>
+    <input id="work_date" type="date" class="p-2 border rounded w-full">
+  </div>
+
+  <div class="mb-4">
+    <label class="block mb-1">Hours Spent</label>
+    <input id="hours" type="number" class="p-2 border rounded w-full" min="0.5" step="0.5">
+  </div>
+
+  <div class="mb-4">
+    <label class="block mb-1">Description</label>
+    <textarea id="description" class="p-2 border rounded w-full"></textarea>
+  </div>
+
+  <button onclick="submitHours()" class="bg-green-600 text-white px-4 py-2 rounded">
+    Submit
+  </button>
+
+  <p id="result" class="mt-4 text-green-600"></p>
+</div>
+
+<script>
+async function submitHours() {
+  const task = document.getElementById("task").value;
+  const hours = document.getElementById("hours").value;
+  const date = document.getElementById("work_date").value;
+  const desc = document.getElementById("description").value;
+
+  const res = await fetch("/api/method/iss_project.www.api.developer_timesheet_api.log_hours", {
+    method: "POST",
+    body: JSON.stringify({ task, hours, work_date: date, description: desc })
+  });
+
+  let data = await res.json();
+  document.getElementById("result").innerText = data.message.message;
+}
+</script>

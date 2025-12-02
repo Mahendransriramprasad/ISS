@@ -1,0 +1,31 @@
+<div class="p-6">
+  <h1 class="text-xl font-bold mb-4">My Tasks</h1>
+
+  <div id="task_list" class="grid gap-4"></div>
+</div>
+
+<script>
+async function loadTasks() {
+  let res = await fetch("/api/method/iss_project.www.api.developer_tasks_api.get_my_tasks");
+  let data = await res.json();
+
+  let container = document.getElementById("task_list");
+  container.innerHTML = "";
+
+  data.message.forEach(t => {
+    container.innerHTML += `
+      <div class="p-4 border rounded bg-white">
+        <h3 class="font-bold">${t.title}</h3>
+        <p class="text-sm text-gray-600">Project: ${t.project}</p>
+        <p class="text-sm text-gray-600">Status: ${t.status}</p>
+        <a href="/dashboard/log_hours?task=${t.name}"
+           class="mt-2 inline-block px-3 py-1 bg-blue-600 text-white rounded">
+          Log Hours
+        </a>
+      </div>
+    `;
+  });
+}
+
+loadTasks();
+</script>

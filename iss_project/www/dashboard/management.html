@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Management Portfolio</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="/assets/iss_project/css/iss_project.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div class="max-w-6xl mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-4">Management Portfolio Dashboard</h1>
+
+    <div id="top_summary" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"></div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section class="bg-white p-4 rounded shadow">
+        <h2 class="font-semibold mb-2">PM Ranking</h2>
+        <div id="pm_ranking"></div>
+      </section>
+
+      <section class="bg-white p-4 rounded shadow">
+        <h2 class="font-semibold mb-2">RAG Health</h2>
+        <div id="rag_box"></div>
+      </section>
+    </div>
+  </div>
+
+<script>
+async function loadMgmt() {
+  const res = await fetch('/api/method/iss_project.www.api.dashboard_api.get_management_dashboard');
+  const json = await res.json();
+  const data = json.message || {};
+
+  const top_summary = document.getElementById('top_summary');
+  top_summary.innerHTML = '';
+  top_summary.innerHTML += `<div class="bg-white p-4 rounded shadow text-center"><div class="text-sm text-gray-500">Projects</div><div class="text-2xl font-bold">${data.project_count||0}</div></div>`;
+  top_summary.innerHTML += `<div class="bg-white p-4 rounded shadow text-center"><div class="text-sm text-gray-500">Avg Utilization %</div><div class="text-2xl font-bold">${Math.round(data.avg_utilization||0)}</div></div>`;
+  top_summary.innerHTML += `<div class="bg-white p-4 rounded shadow text-center"><div class="text-sm text-gray-500">Top PM Score</div><div class="text-2xl font-bold">${(data.pm_ranking && data.pm_ranking[0] && Math.round(data.pm_ranking[0].avg_score)) || '-'}</div></div>`;
+
+  const pm_ranking = document.getElementById('pm_ranking');
+  pm_ranking.innerHTML = (data.pm_ranking||[]).map(p=>`<div class="border-b py-2"><div class="font-semibold">${p.project_manager}</div><div class="text-sm text-gray-600">Score: ${Math.round(p.avg_score||0)}</div></div>`).join('');
+
+  const rag = data.rag || {red:0, amber:0, green:0};
+  const rag_box = document.getElementById('rag_box');
+  rag_box.innerHTML = `<div class="grid grid-cols-3 gap-3">
+    <div class="p-3 rounded bg-red-100 text-center"><div class="text-2xl font-bold">${rag.red}</div><div class="text-sm">Red</div></div>
+    <div class="p-3 rounded bg-amber-100 text-center"><div class="text-2xl font-bold">${rag.amber}</div><div class="text-sm">Amber</div></div>
+    <div class="p-3 rounded bg-green-100 text-center"><div class="text-2xl font-bold">${rag.green}</div><div class="text-sm">Green</div></div>
+  </div>`;
+}
+
+loadMgmt();
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "iss_project",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "tailwindcss": "^3.4.1",
+    "postcss": "^8.4.32",
+    "autoprefixer": "^10.4.19"
+  },
+  "scripts": {
+    "build:css": "npx tailwindcss -i ./iss_project/public/css/tailwind.css -o ./iss_project/public/css/iss_project.css --minify"
+  }
+}

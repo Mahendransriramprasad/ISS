@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>HR & Finance Dashboard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="/assets/iss_project/css/iss_project.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div class="max-w-6xl mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-4">HR & Finance Dashboard</h1>
+
+    <div id="summary" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"></div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section class="bg-white p-4 rounded shadow">
+        <h2 class="font-semibold mb-2">Budgets</h2>
+        <div id="budgets_list"></div>
+      </section>
+
+      <section class="bg-white p-4 rounded shadow">
+        <h2 class="font-semibold mb-2">Resources</h2>
+        <div id="resources_list"></div>
+      </section>
+    </div>
+
+    <section class="bg-white p-4 rounded shadow mt-6">
+      <h2 class="font-semibold mb-2">Utilization (Projects)</h2>
+      <div id="util_list"></div>
+    </section>
+  </div>
+<a href="/dashboard/create_user"
+  class="px-4 py-2 bg-blue-600 text-white rounded block mt-4">
+  ➕ Create User
+</a>
+    
+<script>
+async function loadHR() {
+  const res = await fetch('/api/method/iss_project.www.api.dashboard_api.get_hr_dashboard');
+  const json = await res.json();
+  const data = json.message || {};
+
+  const summary = document.getElementById('summary');
+  summary.innerHTML = '';
+  const budgetsCount = (data.budgets||[]).length;
+  const resourcesCount = (data.resources||[]).length;
+  summary.innerHTML += `<div class="bg-white p-4 rounded shadow text-center"><div class="text-sm text-gray-500">Budget Entries</div><div class="text-2xl font-bold">${budgetsCount}</div></div>`;
+  summary.innerHTML += `<div class="bg-white p-4 rounded shadow text-center"><div class="text-sm text-gray-500">Resources</div><div class="text-2xl font-bold">${resourcesCount}</div></div>`;
+  summary.innerHTML += `<div class="bg-white p-4 rounded shadow text-center"><div class="text-sm text-gray-500">Now</div><div class="text-2xl font-bold">${data.now||''}</div></div>`;
+
+  const budgets_list = document.getElementById('budgets_list');
+  budgets_list.innerHTML = (data.budgets||[]).map(b=>`<div class="border-b py-2"><div class="font-semibold">${b.project}</div><div class="text-sm text-gray-600">${b.budget_type} — ${b.budget_percent}%</div></div>`).join('');
+
+  const resources_list = document.getElementById('resources_list');
+  resources_list.innerHTML = (data.resources||[]).map(r=>`<div class="border-b py-2"><div class="font-semibold">${r.full_name||r.user}</div><div class="text-sm text-gray-600">${r.role_type} — ${r.billing_rate}</div></div>`).join('');
+
+  const util_list = document.getElementById('util_list');
+  util_list.innerHTML = (data.utilization||[]).map(u=>`<div class="border-b py-2"><div class="font-semibold">${u.project}</div><div class="text-sm text-gray-600">Billable: ${u.billable||0} | Non-billable: ${u.non_billable||0}</div></div>`).join('');
+}
+
+loadHR();
+</script>
+</body>
+</html>

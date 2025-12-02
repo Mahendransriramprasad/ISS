@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>PM Dashboard</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link href="/assets/iss_project/css/iss_project.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div class="max-w-6xl mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-4">Project Manager Dashboard</h1>
+
+    <div id="summary" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"></div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section class="bg-white p-4 rounded shadow">
+        <h2 class="font-semibold mb-2">Projects</h2>
+        <div id="projects_list"></div>
+      </section>
+
+      <section class="bg-white p-4 rounded shadow">
+        <h2 class="font-semibold mb-2">Pending Timesheet Approvals</h2>
+        <div id="pending_ts"></div>
+      </section>
+    </div>
+
+    <section class="bg-white p-4 rounded shadow mt-6">
+      <h2 class="font-semibold mb-2">Recent Milestones</h2>
+      <div id="milestones"></div>
+    </section>
+    <a href="/dashboard/pm_create_task" class="block p-4 bg-white rounded shadow mb-3">
+  ➕ Create Task
+</a>
+
+<a href="/dashboard/pm_timesheets" class="block p-4 bg-white rounded shadow mb-3">
+  ✔ Approve Timesheets
+</a>
+
+  </div>
+
+<script>
+async function loadPM() {
+  const res = await fetch('/api/method/iss_project.www.api.dashboard_api.get_pm_dashboard');
+  const json = await res.json();
+  if (!json.message) { document.body.innerHTML = 'Error loading'; return; }
+  const data = json.message;
+
+  // Summary cards
+  const summary = document.getElementById('summary');
+  summary.innerHTML = '';
+  const projCount = data.projects.length || 0;
+  const pendingCount = data.pending_timesheets.length || 0;
+  const extCount = data.milestones.reduce((acc,m)=>acc+(m.extension_count||0),0);
+
+  const makeCard = (title, value) => {
+    return `<div class="bg-white p-4 rounded shadow text-center">
+      <div class="text-sm text-gray-500">${title}</div>
+      <div class="text-2xl font-bold">${value}</div>
+    </div>`;
+  };
+
+  summary.innerHTML += makeCard('Active Projects', projCount);
+  summary.innerHTML += makeCard('Pending Timesheets', pendingCount);
+  summary.innerHTML += makeCard('Total Extensions', extCount);
+
+  // projects list
+  const projects_list = document.getElementById('projects_list');
+  projects_list.innerHTML = data.projects.map(p =>
+    `<div class="border-b py-2">
+       <div class="font-semibold">${p.project_code || p.name} — ${p.project_name || ''}</div>
+       <div class="text-sm text-gray-600">Budget %: ${p.budget_percent || 0} — Util: ${p.last_utilization_pct || 0}% — Profit%: ${p.last_profit_pct || 0}%</div>
+     </div>`).join('');
+
+  // pending timesheets
+  const pending_ts = document.getElementById('pending_ts');
+  if (data.pending_timesheets.length===0) pending_ts.innerHTML = '<div class="text-sm text-gray-600">No pending timesheets.</div>';
+  else pending_ts.innerHTML = data.pending_timesheets.map(t =>
+    `<div class="border-b py-2">
+       <div class="font-medium">${t.user} — ${t.hours}h — ${t.work_date}</div>
+       <div class="text-sm text-gray-600">${t.task} / ${t.project}</div>
+       <div class="mt-2"><a class="px-3 py-1 bg-blue-600 text-white rounded inline-block" href="/approve-timesheet?name=${t.name}">Open</a></div>
+     </div>`).join('');
+
+  // milestones
+  const milestones = document.getElementById('milestones');
+  milestones.innerHTML = data.milestones.map(m =>
+    `<div class="border-b py-2">
+      <div class="font-medium">${m.milestone_name} — ${m.status}</div>
+      <div class="text-sm text-gray-600">Planned: ${m.planned_date || '-'} / Actual: ${m.actual_date || '-'} — Ext: ${m.extension_count || 0}</div>
+    </div>`).join('');
+}
+
+loadPM();
+</script>
+</body>
+</html>
