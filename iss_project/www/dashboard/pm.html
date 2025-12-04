@@ -1,99 +1,197 @@
 {% block head_include %}
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/heroicons@2.1.1/dist/heroicons.js"></script>
 {% endblock %}
+
 <!doctype html>
 <html>
 <head>
   <meta charset="utf-8">
   <title>PM Dashboard</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link href="/assets/iss_project/css/iss_project.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
-  <div class="max-w-6xl mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-4">Project Manager Dashboard</h1>
 
-    <div id="summary" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"></div>
+<body class="bg-gray-100 min-h-screen">
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <section class="bg-white p-4 rounded shadow">
-        <h2 class="font-semibold mb-2">Projects</h2>
-        <div id="projects_list"></div>
+  <div class="max-w-7xl mx-auto p-6">
+
+    <!-- Title -->
+    <h1 class="text-3xl font-bold mb-8 text-gray-800 flex items-center gap-3">
+      <svg class="w-9 h-9 text-blue-600" fill="none" stroke="currentColor"><use href="#clipboard-document"/></svg>
+      Project Manager Dashboard
+    </h1>
+
+    <!-- Summary Cards -->
+    <div id="summary" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10"></div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      
+      <!-- Projects -->
+      <section class="bg-white p-6 rounded-2xl shadow hover:shadow-xl border border-gray-100 transition">
+        <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+          <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor"><use href="#folder"/></svg>
+          Projects
+        </h2>
+        <div id="projects_list" class="space-y-4"></div>
       </section>
 
-      <section class="bg-white p-4 rounded shadow">
-        <h2 class="font-semibold mb-2">Pending Timesheet Approvals</h2>
-        <div id="pending_ts"></div>
+      <!-- Pending Timesheets -->
+      <section class="bg-white p-6 rounded-2xl shadow hover:shadow-xl border border-gray-100 transition">
+        <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+          <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor"><use href="#clock-alert"/></svg>
+          Pending Timesheet Approvals
+        </h2>
+        <div id="pending_ts" class="space-y-4"></div>
       </section>
+
     </div>
 
-    <section class="bg-white p-4 rounded shadow mt-6">
-      <h2 class="font-semibold mb-2">Recent Milestones</h2>
-      <div id="milestones"></div>
+    <!-- Recent Milestones -->
+    <section class="bg-white p-6 rounded-2xl shadow hover:shadow-xl border border-gray-100 transition mt-10">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor"><use href="#flag"/></svg>
+        Recent Milestones
+      </h2>
+      <div id="milestones" class="space-y-4"></div>
     </section>
-    <a href="/dashboard/pm_create_task" class="block p-4 bg-white rounded shadow mb-3">
-  ➕ Create Task
-</a>
 
-<a href="/dashboard/pm_timesheets" class="block p-4 bg-white rounded shadow mb-3">
-  ✔ Approve Timesheets
-</a>
+    <!-- Buttons -->
+    <div class="mt-8 space-y-4">
+      <a href="/dashboard/pm_create_task"
+         class="block p-4 bg-white rounded-2xl shadow hover:shadow-lg border border-gray-200 transition flex items-center gap-3 text-gray-800 font-medium">
+        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor"><use href="#plus"/></svg>
+        Create Task
+      </a>
+
+      <a href="/dashboard/pm_timesheets"
+         class="block p-4 bg-white rounded-2xl shadow hover:shadow-lg border border-gray-200 transition flex items-center gap-3 text-gray-800 font-medium">
+        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor"><use href="#clipboard-check"/></svg>
+        Approve Timesheets
+      </a>
+    </div>
 
   </div>
+
+
+<!-- Heroicons -->
+<svg style="display:none;">
+  
+  <symbol id="clipboard-document" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M9 2h6a2 2 0 012 2v1H7V4a2 2 0 012-2z"/>
+    <path d="M3 7h18v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/>
+  </symbol>
+
+  <symbol id="folder" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M3 7h6l2 2h10v10H3z"/>
+  </symbol>
+
+  <symbol id="clock-alert" viewBox="0 0 24 24" stroke-width="1.8">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M12 7v5l3 3"/>
+    <path d="M18 6l-3 3"/>
+  </symbol>
+
+  <symbol id="flag" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M5 4h11l-2 4 2 4H5v8"/>
+  </symbol>
+
+  <symbol id="clipboard-check" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M9 2h6a2 2 0 012 2v1H7V4a2 2 0 012-2z"/>
+    <path d="M3 7h18v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/>
+    <path d="M9 13l2 2 4-4"/>
+  </symbol>
+
+  <symbol id="plus" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M12 5v14"/>
+    <path d="M5 12h14"/>
+  </symbol>
+
+</svg>
+
 
 <script>
 async function loadPM() {
   const res = await fetch('/api/method/iss_project.www.api.dashboard_api.get_pm_dashboard');
   const json = await res.json();
-  if (!json.message) { document.body.innerHTML = 'Error loading'; return; }
+  
+  if (!json.message) {
+    document.body.innerHTML = '<div class="p-10 text-red-600 text-center text-xl">Error loading dashboard</div>';
+    return;
+  }
+  
   const data = json.message;
 
-  // Summary cards
+  // Summary
   const summary = document.getElementById('summary');
   summary.innerHTML = '';
-  const projCount = data.projects.length || 0;
-  const pendingCount = data.pending_timesheets.length || 0;
-  const extCount = data.milestones.reduce((acc,m)=>acc+(m.extension_count||0),0);
 
-  const makeCard = (title, value) => {
-    return `<div class="bg-white p-4 rounded shadow text-center">
-      <div class="text-sm text-gray-500">${title}</div>
-      <div class="text-2xl font-bold">${value}</div>
-    </div>`;
-  };
+  const cards = [
+    { label: "Active Projects", value: data.projects.length || 0, icon: "folder" },
+    { label: "Pending Timesheets", value: data.pending_timesheets.length || 0, icon: "clock-alert" },
+    { label: "Total Extensions", value: data.milestones.reduce((a,m)=>a+(m.extension_count||0),0), icon: "flag" }
+  ];
 
-  summary.innerHTML += makeCard('Active Projects', projCount);
-  summary.innerHTML += makeCard('Pending Timesheets', pendingCount);
-  summary.innerHTML += makeCard('Total Extensions', extCount);
+  cards.forEach(c => {
+    summary.innerHTML += `
+      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl border border-gray-200 transition text-center">
+        <div class="flex justify-center mb-2">
+          <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor">
+            <use href="#${c.icon}" />
+          </svg>
+        </div>
+        <div class="text-gray-500 text-sm">${c.label}</div>
+        <div class="text-3xl font-bold text-gray-800">${c.value}</div>
+      </div>
+    `;
+  });
 
-  // projects list
+  // Projects
   const projects_list = document.getElementById('projects_list');
-  projects_list.innerHTML = data.projects.map(p =>
-    `<div class="border-b py-2">
-       <div class="font-semibold">${p.project_code || p.name} — ${p.project_name || ''}</div>
-       <div class="text-sm text-gray-600">Budget %: ${p.budget_percent || 0} — Util: ${p.last_utilization_pct || 0}% — Profit%: ${p.last_profit_pct || 0}%</div>
-     </div>`).join('');
+  projects_list.innerHTML = data.projects.map(p => `
+    <div class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-gray-100 transition">
+      <div class="font-semibold text-gray-800">${p.project_code || p.name} — ${p.project_name || ''}</div>
+      <div class="text-sm text-gray-600">
+        Budget %: ${p.budget_percent || 0} — 
+        Util: ${p.last_utilization_pct || 0}% — 
+        Profit: ${p.last_profit_pct || 0}%
+      </div>
+    </div>
+  `).join('');
 
-  // pending timesheets
+  // Pending Timesheets
   const pending_ts = document.getElementById('pending_ts');
-  if (data.pending_timesheets.length===0) pending_ts.innerHTML = '<div class="text-sm text-gray-600">No pending timesheets.</div>';
-  else pending_ts.innerHTML = data.pending_timesheets.map(t =>
-    `<div class="border-b py-2">
-       <div class="font-medium">${t.user} — ${t.hours}h — ${t.work_date}</div>
-       <div class="text-sm text-gray-600">${t.task} / ${t.project}</div>
-       <div class="mt-2"><a class="px-3 py-1 bg-blue-600 text-white rounded inline-block" href="/approve-timesheet?name=${t.name}">Open</a></div>
-     </div>`).join('');
+  
+  if (!data.pending_timesheets.length) {
+    pending_ts.innerHTML = `<div class="text-gray-600 text-sm">No pending timesheets.</div>`;
+  } else {
+    pending_ts.innerHTML = data.pending_timesheets.map(t => `
+      <div class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-gray-100 transition">
+        <div class="font-medium text-gray-800">${t.user} — ${t.hours}h — ${t.work_date}</div>
+        <div class="text-sm text-gray-600">${t.task} / ${t.project}</div>
+        <a class="inline-block mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition"
+           href="/approve-timesheet?name=${t.name}">
+          Open
+        </a>
+      </div>
+    `).join('');
+  }
 
-  // milestones
+  // Recent Milestones
   const milestones = document.getElementById('milestones');
-  milestones.innerHTML = data.milestones.map(m =>
-    `<div class="border-b py-2">
-      <div class="font-medium">${m.milestone_name} — ${m.status}</div>
-      <div class="text-sm text-gray-600">Planned: ${m.planned_date || '-'} / Actual: ${m.actual_date || '-'} — Ext: ${m.extension_count || 0}</div>
-    </div>`).join('');
+  milestones.innerHTML = data.milestones.map(m => `
+    <div class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-gray-100 transition">
+      <div class="font-medium text-gray-800">${m.milestone_name} — ${m.status}</div>
+      <div class="text-sm text-gray-600">
+        Planned: ${m.planned_date || '-'} / 
+        Actual: ${m.actual_date || '-'} — 
+        Ext: ${m.extension_count || 0}
+      </div>
+    </div>
+  `).join('');
 }
 
 loadPM();
 </script>
+
 </body>
 </html>

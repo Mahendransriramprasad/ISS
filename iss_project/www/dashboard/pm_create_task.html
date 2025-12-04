@@ -1,44 +1,136 @@
 {% block head_include %}
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/heroicons@2.1.1/dist/heroicons.js"></script>
 {% endblock %}
-<div class="p-8 max-w-xl mx-auto">
-  <h1 class="text-2xl font-bold mb-6">Create New Task</h1>
 
-  <div class="mb-4">
-    <label class="block mb-1">Task Title</label>
-    <input id="title" class="p-2 border w-full rounded">
+<div class="min-h-screen bg-gray-100 flex justify-center items-center p-6">
+
+  <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-xl border border-gray-100">
+
+    <h1 class="text-3xl font-bold mb-8 text-gray-800 flex items-center gap-3">
+      <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor">
+        <use href="#document-plus" />
+      </svg>
+      Create New Task
+    </h1>
+
+    <!-- Task Title -->
+    <div class="mb-5">
+      <label class="block mb-1 font-medium text-gray-700">Task Title</label>
+      <div class="relative">
+        <input id="title"
+          class="p-3 pl-10 border rounded-xl w-full focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          placeholder="Enter task title" />
+        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3.5">
+          <use href="#pencil" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Developer Email -->
+    <div class="mb-5">
+      <label class="block mb-1 font-medium text-gray-700">Assign To (Developer Email)</label>
+      <div class="relative">
+        <input id="developer"
+          class="p-3 pl-10 border rounded-xl w-full focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          placeholder="developer@example.com" />
+        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3.5">
+          <use href="#user" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Project -->
+    <div class="mb-5">
+      <label class="block mb-1 font-medium text-gray-700">Project</label>
+      <div class="relative">
+        <input id="project"
+          class="p-3 pl-10 border rounded-xl w-full focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          placeholder="Project name" />
+        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3.5">
+          <use href="#folder" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Estimated Hours -->
+    <div class="mb-5">
+      <label class="block mb-1 font-medium text-gray-700">Estimated Hours</label>
+      <div class="relative">
+        <input id="hours" type="number" step="0.5"
+          class="p-3 pl-10 border rounded-xl w-full focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          placeholder="2, 4, 8..." />
+        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3.5">
+          <use href="#clock" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Priority -->
+    <div class="mb-7">
+      <label class="block mb-1 font-medium text-gray-700">Priority</label>
+      <div class="relative">
+        <select id="priority"
+          class="p-3 pl-10 border rounded-xl w-full focus:ring-2 focus:ring-blue-400 focus:outline-none bg-white">
+          <option>Low</option>
+          <option selected>Medium</option>
+          <option>High</option>
+        </select>
+        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3.5">
+          <use href="#flag" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button onclick="createTask()"
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold shadow-md transition flex items-center justify-center gap-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor"><use href="#check" /></svg>
+      Create Task
+    </button>
+
+    <p id="resp" class="mt-5 text-center font-semibold"></p>
   </div>
-
-  <div class="mb-4">
-    <label class="block mb-1">Assign To (Developer Email)</label>
-    <input id="developer" class="p-2 border w-full rounded">
-  </div>
-
-  <div class="mb-4">
-    <label class="block mb-1">Project</label>
-    <input id="project" class="p-2 border w-full rounded">
-  </div>
-
-  <div class="mb-4">
-    <label class="block mb-1">Estimated Hours</label>
-    <input id="hours" type="number" step="0.5" class="p-2 border w-full rounded">
-  </div>
-
-  <div class="mb-4">
-    <label class="block mb-1">Priority</label>
-    <select id="priority" class="p-2 border w-full rounded">
-      <option>Low</option>
-      <option selected>Medium</option>
-      <option>High</option>
-    </select>
-  </div>
-
-  <button onclick="createTask()" class="px-4 py-2 bg-blue-600 text-white rounded">
-    Create Task
-  </button>
-
-  <p id="resp" class="text-green-600 mt-4"></p>
 </div>
+
+<!-- Icons -->
+<svg style="display:none;">
+
+  <symbol id="document-plus" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M12 4H6a2 2 0 00-2 2v14a2 2 0 002 2h8"/>
+    <path d="M14 2l6 6v12a2 2 0 01-2 2h-4"/>
+    <path d="M13 10h8"/>
+    <path d="M17 6v8"/>
+  </symbol>
+
+  <symbol id="pencil" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M12 20h9"/>
+    <path d="M16.5 3.5l4 4L7 21H3v-4L16.5 3.5z"/>
+  </symbol>
+
+  <symbol id="user" viewBox="0 0 24 24" stroke-width="1.8">
+    <circle cx="12" cy="8" r="4"/>
+    <path d="M6 20v-2a4 4 0 014-4h0a4 4 0 014 4v2"/>
+  </symbol>
+
+  <symbol id="folder" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M3 7h6l2 2h10v10H3z"/>
+  </symbol>
+
+  <symbol id="clock" viewBox="0 0 24 24" stroke-width="1.8">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M12 7v5l3 3"/>
+  </symbol>
+
+  <symbol id="flag" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M5 4h11l-2 4 2 4H5v8"/>
+  </symbol>
+
+  <symbol id="check" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M5 13l4 4L19 7"/>
+  </symbol>
+
+</svg>
 
 <script>
 async function createTask() {
@@ -56,6 +148,11 @@ async function createTask() {
   });
 
   let json = await res.json();
-  document.getElementById("resp").innerText = json.message.message;
+  const resp = document.getElementById("resp");
+
+  resp.innerText = json.message.message;
+  resp.className = json.message.ok
+    ? "mt-4 text-green-600 font-semibold"
+    : "mt-4 text-red-600 font-semibold";
 }
 </script>

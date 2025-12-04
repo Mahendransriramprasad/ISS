@@ -1,28 +1,79 @@
 {% block head_include %}
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/heroicons@2.1.1/dist/heroicons.js"></script>
 {% endblock %}
-<div class="p-6">
-  <h1 class="text-xl font-bold mb-6">Timesheet Approvals</h1>
 
-  <div id="list"></div>
+<div class="p-8 max-w-4xl mx-auto">
+
+  <h1 class="text-3xl font-bold mb-8 text-gray-800 flex items-center gap-3">
+    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor">
+      <use href="#clipboard-check" />
+    </svg>
+    Timesheet Approvals
+  </h1>
+
+  <div id="list" class="space-y-4"></div>
+
 </div>
+
+<!-- Heroicon Symbols -->
+<svg style="display:none;">
+
+  <symbol id="clipboard-check" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M9 2h6a2 2 0 012 2v1H7V4a2 2 0 012-2z"/>
+    <path d="M3 7h18v12a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/>
+    <path d="M9 13l2 2 4-4"/>
+  </symbol>
+
+  <symbol id="check" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M5 13l4 4L19 7"/>
+  </symbol>
+
+  <symbol id="xmark" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M6 18L18 6M6 6l12 12"/>
+  </symbol>
+</svg>
+
 
 <script>
 async function loadTimesheets() {
-  let res = await fetch("/api/resource/Timesheet Entry?filters=[[\"status\",\"=\",\"Pending Approval\"]]");
+  let res = await fetch(`/api/resource/Timesheet Entry?filters=[[\"status\",\"=\",\"Pending Approval\"]]`);
   let data = await res.json();
   let container = document.getElementById("list");
+
   container.innerHTML = "";
 
   data.data.forEach(row => {
     container.innerHTML += `
-      <div class="p-4 border rounded bg-white mb-3">
-        <h3 class="font-bold">${row.name}</h3>
-        <p>Task: ${row.task}</p>
-        <p>Developer: ${row.developer}</p>
-        <p>Hours: ${row.hours}</p>
-        <button onclick="approve('${row.name}')" class="bg-green-600 text-white px-3 py-1 rounded mt-2">Approve</button>
-        <button onclick="rejectTS('${row.name}')" class="bg-red-600 text-white px-3 py-1 rounded mt-2 ml-2">Reject</button>
+      <div class="p-6 bg-white rounded-2xl shadow-md border border-gray-200 hover:shadow-lg transition">
+        
+        <h3 class="text-xl font-semibold text-gray-800 mb-2 flex items-center gap-2">
+          <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor">
+            <use href="#clipboard-check" />
+          </svg>
+          ${row.name}
+        </h3>
+
+        <div class="text-gray-600 space-y-1 mb-4">
+          <p><span class="font-medium text-gray-700">Task:</span> ${row.task}</p>
+          <p><span class="font-medium text-gray-700">Developer:</span> ${row.developer}</p>
+          <p><span class="font-medium text-gray-700">Hours:</span> ${row.hours}</p>
+        </div>
+
+        <div class="flex gap-3">
+          <button onclick="approve('${row.name}')"
+            class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl shadow transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor"><use href="#check" /></svg>
+            Approve
+          </button>
+
+          <button onclick="rejectTS('${row.name}')"
+            class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl shadow transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor"><use href="#xmark" /></svg>
+            Reject
+          </button>
+        </div>
+
       </div>
     `;
   });
@@ -38,10 +89,13 @@ async function approve(id) {
 
 async function rejectTS(id) {
   const reason = prompt("Enter rejection reason:");
+  if (!reason) return;
+
   await fetch("/api/method/iss_project.www.api.pm_timesheet_api.reject_timesheet", {
     method: "POST",
     body: JSON.stringify({ timesheet_id: id, reason })
   });
+
   loadTimesheets();
 }
 

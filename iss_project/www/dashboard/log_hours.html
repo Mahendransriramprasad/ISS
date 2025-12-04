@@ -1,32 +1,107 @@
 {% block head_include %}
 <script src="https://cdn.tailwindcss.com"></script>
+<!-- Heroicons CDN -->
+<script src="https://unpkg.com/heroicons@2.1.1/dist/heroicons.js"></script>
 {% endblock %}
-<div class="p-8 max-w-lg mx-auto">
-  <h1 class="text-2xl font-bold mb-6">Log Hours</h1>
 
-  <input type="hidden" id="task" value="{{ frappe.form_dict.task }}">
+<div class="min-h-screen bg-gray-100 flex justify-center items-center p-6">
 
-  <div class="mb-4">
-    <label class="block mb-1">Work Date</label>
-    <input id="work_date" type="date" class="p-2 border rounded w-full">
+  <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg border border-gray-100">
+
+    <h1 class="text-3xl font-bold mb-8 text-gray-800 flex items-center gap-3">
+      <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor">
+        <use href="#clock" />
+      </svg>
+      Log Hours
+    </h1>
+
+    <input type="hidden" id="task" value="{{ frappe.form_dict.task }}">
+
+    <!-- Work Date -->
+    <div class="mb-6">
+      <label class="block mb-1 font-medium text-gray-700">Work Date</label>
+      <div class="relative">
+        <input id="work_date" type="date"
+          class="p-3 pl-10 border rounded-xl w-full focus:ring-2 focus:ring-green-400 focus:outline-none" />
+        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3.5" fill="none" stroke="currentColor">
+          <use href="#calendar" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Hours -->
+    <div class="mb-6">
+      <label class="block mb-1 font-medium text-gray-700">Hours Spent</label>
+      <div class="relative">
+        <input id="hours" type="number" min="0.5" step="0.5"
+          class="p-3 pl-10 border rounded-xl w-full focus:ring-2 focus:ring-green-400 focus:outline-none"
+          placeholder="0.5, 1, 2, etc." />
+        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3.5" fill="none" stroke="currentColor">
+          <use href="#number" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="mb-6">
+      <label class="block mb-1 font-medium text-gray-700">Description</label>
+      <div class="relative">
+        <textarea id="description"
+          class="p-3 pl-10 border rounded-xl w-full focus:ring-2 focus:ring-green-400 focus:outline-none h-28 resize-none"
+          placeholder="Describe your work..."></textarea>
+        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3.5" fill="none" stroke="currentColor">
+          <use href="#pencil" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button onclick="submitHours()"
+      class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-semibold shadow-md transition flex items-center justify-center gap-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor">
+        <use href="#check" />
+      </svg>
+      Submit Hours
+    </button>
+
+    <p id="result" class="mt-5 text-center font-semibold"></p>
+
   </div>
-
-  <div class="mb-4">
-    <label class="block mb-1">Hours Spent</label>
-    <input id="hours" type="number" class="p-2 border rounded w-full" min="0.5" step="0.5">
-  </div>
-
-  <div class="mb-4">
-    <label class="block mb-1">Description</label>
-    <textarea id="description" class="p-2 border rounded w-full"></textarea>
-  </div>
-
-  <button onclick="submitHours()" class="bg-green-600 text-white px-4 py-2 rounded">
-    Submit
-  </button>
-
-  <p id="result" class="mt-4 text-green-600"></p>
 </div>
+
+
+<!-- Heroicon symbols -->
+<svg style="display:none;">
+
+  <!-- Clock / Log Hours -->
+  <symbol id="clock" viewBox="0 0 24 24" stroke-width="1.8">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M12 7v5l3 3"/>
+  </symbol>
+
+  <!-- Calendar -->
+  <symbol id="calendar" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M3 5h18v16H3z"/>
+    <path d="M8 3v4M16 3v4"/>
+  </symbol>
+
+  <!-- Number Input -->
+  <symbol id="number" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M8 3l-4 18M16 3l-4 18M4 10h17M3 14h17"/>
+  </symbol>
+
+  <!-- Pencil / Description -->
+  <symbol id="pencil" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M12 20h9"/>
+    <path d="M16.5 3.5l4 4L7 21H3v-4L16.5 3.5z"/>
+  </symbol>
+
+  <!-- Check -->
+  <symbol id="check" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M5 13l4 4L19 7"/>
+  </symbol>
+
+</svg>
 
 <script>
 async function submitHours() {
@@ -41,6 +116,14 @@ async function submitHours() {
   });
 
   let data = await res.json();
-  document.getElementById("result").innerText = data.message.message;
+  const result = document.getElementById("result");
+
+  result.innerText = data.message.message;
+
+  if (data.message.ok) {
+    result.className = "mt-4 text-green-600 font-semibold";
+  } else {
+    result.className = "mt-4 text-red-600 font-semibold";
+  }
 }
 </script>

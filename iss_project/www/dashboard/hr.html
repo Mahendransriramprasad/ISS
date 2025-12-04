@@ -1,42 +1,114 @@
 {% block head_include %}
 <script src="https://cdn.tailwindcss.com"></script>
+<!-- Heroicons CDN -->
+<script src="https://unpkg.com/heroicons@2.1.1/dist/heroicons.js"></script>
 {% endblock %}
+
 <!doctype html>
 <html>
 <head>
   <meta charset="utf-8">
   <title>HR & Finance Dashboard</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link href="/assets/iss_project/css/iss_project.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
-  <div class="max-w-6xl mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-4">HR & Finance Dashboard</h1>
 
-    <div id="summary" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"></div>
+<body class="bg-gray-100 min-h-screen">
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <section class="bg-white p-4 rounded shadow">
-        <h2 class="font-semibold mb-2">Budgets</h2>
-        <div id="budgets_list"></div>
+  <div class="max-w-7xl mx-auto p-6">
+
+    <h1 class="text-3xl font-bold mb-8 text-gray-800 flex items-center gap-3">
+      <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor">
+        <use href="#briefcase"></use>
+      </svg>
+      HR & Finance Dashboard
+    </h1>
+
+    <!-- SUMMARY CARDS -->
+    <div id="summary" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10"></div>
+
+    <!-- MAIN GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+      <!-- BUDGETS -->
+      <section class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition">
+        <h2 class="text-xl font-semibold mb-4 flex items-center gap-2 text-gray-700">
+          <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor">
+            <use href="#wallet"></use>
+          </svg>
+          Budgets
+        </h2>
+        <div id="budgets_list" class="space-y-4"></div>
       </section>
 
-      <section class="bg-white p-4 rounded shadow">
-        <h2 class="font-semibold mb-2">Resources</h2>
-        <div id="resources_list"></div>
+      <!-- RESOURCES -->
+      <section class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition">
+        <h2 class="text-xl font-semibold mb-4 flex items-center gap-2 text-gray-700">
+          <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor">
+            <use href="#users"></use>
+          </svg>
+          Resources
+        </h2>
+        <div id="resources_list" class="space-y-4"></div>
       </section>
+
     </div>
 
-    <section class="bg-white p-4 rounded shadow mt-6">
-      <h2 class="font-semibold mb-2">Utilization (Projects)</h2>
-      <div id="util_list"></div>
+    <!-- UTILIZATION -->
+    <section class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition mt-10">
+      <h2 class="text-xl font-semibold mb-4 flex items-center gap-2 text-gray-700">
+        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor">
+          <use href="#chart-bar"></use>
+        </svg>
+        Utilization (Projects)
+      </h2>
+      <div id="util_list" class="space-y-4"></div>
     </section>
+
+
+    <!-- BUTTON -->
+    <a href="/dashboard/create_user"
+      class="inline-flex items-center gap-2 mt-10 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow transition">
+      <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor">
+        <use href="#plus"></use>
+      </svg>
+      Create User
+    </a>
+
   </div>
-<a href="/dashboard/create_user"
-  class="px-4 py-2 bg-blue-600 text-white rounded block mt-4">
-  ➕ Create User
-</a>
-    
+
+
+<!-- HEROICONS SYMBOLS -->
+<svg style="display:none;">
+  <symbol id="briefcase" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M9 6V5a2 2 0 012-2h2a2 2 0 012 2v1"/>
+    <path d="M3 10a2 2 0 012-2h14a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7z"/>
+  </symbol>
+
+  <symbol id="wallet" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M21 12V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h14a2 2 0 002-2v-5z"/>
+    <path d="M16 12h5"/>
+  </symbol>
+
+  <symbol id="users" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M17 20v-2a4 4 0 00-4-4h-2a4 4 0 00-4 4v2"/>
+    <circle cx="12" cy="7" r="4"/>
+  </symbol>
+
+  <symbol id="chart-bar" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M3 3v18h18"/>
+    <rect x="7" y="9" width="3" height="7"/>
+    <rect x="12" y="5" width="3" height="11"/>
+    <rect x="17" y="12" width="3" height="4"/>
+  </symbol>
+
+  <symbol id="plus" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M12 5v14"/>
+    <path d="M5 12h14"/>
+  </symbol>
+</svg>
+
+
+<!-- JS -->
 <script>
 async function loadHR() {
   const res = await fetch('/api/method/iss_project.www.api.dashboard_api.get_hr_dashboard');
@@ -45,23 +117,56 @@ async function loadHR() {
 
   const summary = document.getElementById('summary');
   summary.innerHTML = '';
-  const budgetsCount = (data.budgets||[]).length;
-  const resourcesCount = (data.resources||[]).length;
-  summary.innerHTML += `<div class="bg-white p-4 rounded shadow text-center"><div class="text-sm text-gray-500">Budget Entries</div><div class="text-2xl font-bold">${budgetsCount}</div></div>`;
-  summary.innerHTML += `<div class="bg-white p-4 rounded shadow text-center"><div class="text-sm text-gray-500">Resources</div><div class="text-2xl font-bold">${resourcesCount}</div></div>`;
-  summary.innerHTML += `<div class="bg-white p-4 rounded shadow text-center"><div class="text-sm text-gray-500">Now</div><div class="text-2xl font-bold">${data.now||''}</div></div>`;
 
-  const budgets_list = document.getElementById('budgets_list');
-  budgets_list.innerHTML = (data.budgets||[]).map(b=>`<div class="border-b py-2"><div class="font-semibold">${b.project}</div><div class="text-sm text-gray-600">${b.budget_type} — ${b.budget_percent}%</div></div>`).join('');
+  const cards = [
+    { label: "Budget Entries", value: (data.budgets || []).length, icon: "wallet" },
+    { label: "Resources", value: (data.resources || []).length, icon: "users" },
+    { label: "Now", value: data.now || "", icon: "chart-bar" }
+  ];
 
-  const resources_list = document.getElementById('resources_list');
-  resources_list.innerHTML = (data.resources||[]).map(r=>`<div class="border-b py-2"><div class="font-semibold">${r.full_name||r.user}</div><div class="text-sm text-gray-600">${r.role_type} — ${r.billing_rate}</div></div>`).join('');
+  cards.forEach(c => {
+    summary.innerHTML += `
+      <div class="bg-white p-6 rounded-2xl shadow hover:shadow-xl transition text-center">
+        <div class="flex justify-center mb-3">
+          <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor">
+            <use href="#${c.icon}"></use>
+          </svg>
+        </div>
+        <div class="text-gray-500 text-sm">${c.label}</div>
+        <div class="text-3xl font-bold text-gray-800">${c.value}</div>
+      </div>
+    `;
+  });
 
-  const util_list = document.getElementById('util_list');
-  util_list.innerHTML = (data.utilization||[]).map(u=>`<div class="border-b py-2"><div class="font-semibold">${u.project}</div><div class="text-sm text-gray-600">Billable: ${u.billable||0} | Non-billable: ${u.non_billable||0}</div></div>`).join('');
+  document.getElementById('budgets_list').innerHTML =
+    (data.budgets || []).map(b => `
+      <div class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-gray-100 transition">
+        <div class="font-semibold text-gray-800">${b.project}</div>
+        <div class="text-sm text-gray-600">${b.budget_type} — ${b.budget_percent}%</div>
+      </div>
+    `).join('');
+
+  document.getElementById('resources_list').innerHTML =
+    (data.resources || []).map(r => `
+      <div class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-gray-100 transition">
+        <div class="font-semibold text-gray-800">${r.full_name || r.user}</div>
+        <div class="text-sm text-gray-600">${r.role_type} — ${r.billing_rate}</div>
+      </div>
+    `).join('');
+
+  document.getElementById('util_list').innerHTML =
+    (data.utilization || []).map(u => `
+      <div class="p-4 bg-gray-50 rounded-xl shadow-sm hover:bg-gray-100 transition">
+        <div class="font-semibold text-gray-800">${u.project}</div>
+        <div class="text-sm text-gray-600">
+          Billable: ${u.billable || 0} | Non-billable: ${u.non_billable || 0}
+        </div>
+      </div>
+    `).join('');
 }
 
 loadHR();
 </script>
+
 </body>
 </html>

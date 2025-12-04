@@ -1,25 +1,78 @@
 {% block head_include %}
 <script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Heroicons CDN -->
+<script src="https://unpkg.com/heroicons@2.1.1/dist/heroicons.js"></script>
 {% endblock %}
+
 <div class="min-h-screen bg-gray-100 p-6">
-  <h1 class="text-2xl font-bold mb-6 text-gray-800">Developer Dashboard</h1>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    
+  <h1 class="text-3xl font-bold mb-8 text-gray-800 flex items-center gap-2">
+    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor"><use href="#command-line"/></svg>
+    Developer Dashboard
+  </h1>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+    <!-- My Tasks -->
     <a href="/tasks"
-      class="p-6 bg-white rounded-xl shadow hover:shadow-lg hover:bg-gray-50 transition-all duration-200 block text-gray-700 font-medium">
-      📌 My Tasks
+      class="p-6 bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-200 block border border-gray-100">
+      <div class="flex items-center gap-3 mb-3">
+        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor"><use href="#clipboard-document"/></svg>
+        <h2 class="text-lg font-semibold text-gray-800">My Tasks</h2>
+      </div>
+      <p class="text-gray-600 text-sm">View and manage assigned tasks.</p>
     </a>
 
+    <!-- Log Hours -->
     <a href="/log-hours"
-      class="p-6 bg-white rounded-xl shadow hover:shadow-lg hover:bg-gray-50 transition-all duration-200 block text-gray-700 font-medium">
-      ⏱️ Log Hours
+      class="p-6 bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-200 block border border-gray-100">
+      <div class="flex items-center gap-3 mb-3">
+        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor"><use href="#clock"/></svg>
+        <h2 class="text-lg font-semibold text-gray-800">Log Hours</h2>
+      </div>
+      <p class="text-gray-600 text-sm">Submit the hours worked on tasks.</p>
     </a>
 
+    <!-- Timesheet History -->
     <a href="/timesheet-history"
-      class="p-6 bg-white rounded-xl shadow hover:shadow-lg hover:bg-gray-50 transition-all duration-200 block text-gray-700 font-medium">
-      📄 Timesheet History
+      class="p-6 bg-white rounded-2xl shadow hover:shadow-xl transition-all duration-200 block border border-gray-100">
+      <div class="flex items-center gap-3 mb-3">
+        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor"><use href="#document-text"/></svg>
+        <h2 class="text-lg font-semibold text-gray-800">Timesheet History</h2>
+      </div>
+      <p class="text-gray-600 text-sm">Check previous timesheet entries.</p>
     </a>
 
   </div>
 </div>
+
+<!-- Heroicon Symbols -->
+<svg style="display:none;">
+
+  <!-- Tasks Icon -->
+  <symbol id="clipboard-document" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M9 2h6a2 2 0 012 2v1H7V4a2 2 0 012-2z" />
+    <path d="M7 7h10v13a2 2 0 01-2 2H9a2 2 0 01-2-2V7z" />
+  </symbol>
+
+  <!-- Log Hours Icon -->
+  <symbol id="clock" viewBox="0 0 24 24" stroke-width="1.8">
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7v5l3 3" />
+  </symbol>
+
+  <!-- Timesheet Icon -->
+  <symbol id="document-text" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M7 3h10l3 3v14a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z" />
+    <path d="M9 12h6M9 16h4" />
+  </symbol>
+
+  <!-- Dashboard Icon -->
+  <symbol id="command-line" viewBox="0 0 24 24" stroke-width="1.8">
+    <path d="M3 4h18v16H3z" />
+    <path d="M8 9l3 3-3 3" />
+    <path d="M12 15h4" />
+  </symbol>
+
+</svg>
