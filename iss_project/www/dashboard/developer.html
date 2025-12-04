@@ -1,14 +1,25 @@
-<div class="p-6">
-  <h1 class="text-xl font-bold mb-4">Developer Dashboard</h1>
+{% block head_include %}
+<script src="https://cdn.tailwindcss.com"></script>
+{% endblock %}
+<div class="min-h-screen bg-gray-100 p-6">
+  <h1 class="text-2xl font-bold mb-6 text-gray-800">Developer Dashboard</h1>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <a href="/tasks" class="block p-4 bg-white shadow rounded">My Tasks</a>
-    <a href="/log-hours" class="block p-4 bg-white shadow rounded">Log Hours</a>
-    <a href="/timesheet-history" class="block p-4 bg-white shadow rounded">Timesheet History</a>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    
+    <a href="/tasks"
+      class="p-6 bg-white rounded-xl shadow hover:shadow-lg hover:bg-gray-50 transition-all duration-200 block text-gray-700 font-medium">
+      📌 My Tasks
+    </a>
+
+    <a href="/log-hours"
+      class="p-6 bg-white rounded-xl shadow hover:shadow-lg hover:bg-gray-50 transition-all duration-200 block text-gray-700 font-medium">
+      ⏱️ Log Hours
+    </a>
+
+    <a href="/timesheet-history"
+      class="p-6 bg-white rounded-xl shadow hover:shadow-lg hover:bg-gray-50 transition-all duration-200 block text-gray-700 font-medium">
+      📄 Timesheet History
+    </a>
+
   </div>
 </div>
-<style>
-  a:hover {
-    background-color: #f3f4f6; /* Tailwind's gray-100 */
-  }
-</style>

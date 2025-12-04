@@ -1,13 +1,17 @@
 {
   "name": "iss_project",
   "version": "1.0.0",
-  "private": true,
-  "devDependencies": {
-    "tailwindcss": "^3.4.1",
-    "postcss": "^8.4.32",
-    "autoprefixer": "^10.4.19"
-  },
+  "description": "ERP Management system for Indo Sakura",
+  "main": "index.js",
   "scripts": {
-    "build:css": "npx tailwindcss -i ./iss_project/public/css/tailwind.css -o ./iss_project/public/css/iss_project.css --minify"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.22",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17"
   }
 }

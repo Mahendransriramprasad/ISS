@@ -1,26 +1,42 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
-  <div class="bg-white p-8 rounded shadow w-96">
-    <h1 class="text-xl font-bold text-center mb-6">Internal Portal Login</h1>
+{% block head_include %}
+<script src="https://cdn.tailwindcss.com"></script>
+{% endblock %}
 
-    <input id="email" type="text" class="w-full p-2 mb-4 border rounded"
-      placeholder="Email">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100 p-4">
+  <div class="bg-white/80 backdrop-blur-lg p-8 rounded-2xl shadow-xl w-full max-w-sm border border-blue-100">
+    
+    <h1 class="text-2xl font-bold text-center mb-6 text-gray-800">
+      Internal Portal Login
+    </h1>
 
-    <input id="password" type="password" class="w-full p-2 mb-6 border rounded"
-      placeholder="Password">
+    <div class="mb-4">
+      <label class="text-gray-600 text-sm mb-1 block">Email</label>
+      <input id="email" type="text"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        placeholder="Enter your email">
+    </div>
 
-    <button onclick="loginPortal()" class="w-full bg-blue-600 text-white py-2 rounded">
+    <div class="mb-6">
+      <label class="text-gray-600 text-sm mb-1 block">Password</label>
+      <input id="password" type="password"
+        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+        placeholder="Enter your password">
+    </div>
+
+    <button onclick="loginPortal()"
+      class="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-3 rounded-lg font-medium shadow">
       Login
     </button>
 
     <p id="error" class="text-red-500 text-sm mt-4 text-center"></p>
   </div>
 </div>
+
 <script>
 async function loginPortal() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  // form-encoded body (frappe expects form-data / form-encoded easily)
   const body = new URLSearchParams();
   body.append("email", email);
   body.append("password", password);
@@ -35,20 +51,17 @@ async function loginPortal() {
       body: body.toString()
     });
 
-    // If response is not OK, try to parse json error message
     const data = await res.json();
 
-    if (res.ok && data.message && data.message.status === "success") {
-      // redirect to the dashboard returned by the API
+    if (res.ok && data.message?.status === "success") {
       window.location.href = data.message.redirect || "/";
       return;
     }
 
-    const err = (data && data.message && (data.message.message || data.message)) || "Login failed";
+    const err = data.message?.message || data.message || "Login failed";
     document.getElementById("error").innerText = err;
 
   } catch (e) {
-    console.error("Login error", e);
     document.getElementById("error").innerText = "Network error. Check server logs.";
   }
 }

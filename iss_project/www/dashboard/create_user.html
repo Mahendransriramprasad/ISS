@@ -1,4 +1,8 @@
+{% block head_include %}
+<script src="https://cdn.tailwindcss.com"></script>
+{% endblock %}
 <div class="p-8 max-w-xl mx-auto">
+
   <h1 class="text-2xl font-bold mb-6">Create User (HR & Finance)</h1>
 
   <div class="mb-4">
@@ -28,7 +32,7 @@
   <p id="response" class="mt-4 text-green-600"></p>
 </div>
 
-<script>
+<script >
 async function createUser() {
   const full_name = document.getElementById("full_name").value;
   const email = document.getElementById("email").value;
@@ -49,3 +53,4 @@ async function createUser() {
   }
 }
 </script>
+
